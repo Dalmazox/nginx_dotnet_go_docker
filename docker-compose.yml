@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+
+  accounts_api:
+    container_name: accounts-api
+    build: ./accounts-api
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "0.0300"
+          memory: 60M
+        reservations:
+          cpus: "0.0250"
+          memory: 50M
+    ports:
+      - "5001:8080"
+    healthcheck:
+      test: curl --fail http://localhost:8080/health || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  bank_api:
+    container_name: bank-api
+    build: ./bank-api
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "0.0300"
+          memory: 60M
+        reservations:
+          cpus: "0.0250"
+          memory: 50M
+    ports:
+      - "5002:8080"
+    healthcheck:
+      test: curl --fail http://localhost:8080/health || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
